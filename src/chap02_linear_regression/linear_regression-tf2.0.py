@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-
 # ## 设计基函数(basis function) 以及数据读取
-
 # In[20]:
 
 import numpy as np
@@ -48,7 +46,6 @@ def load_data(filename, basis_func=gaussian_basis):
         phi1 = basis_func(xs)
         xs = np.concatenate([phi0, phi1], axis=1)
         return (np.float32(xs), np.float32(ys)), (o_x, o_y)
-
 # ## 定义模型
 # In[21]:
 
@@ -73,12 +70,9 @@ class linearModel(Model):
         """
         y = tf.squeeze(tf.matmul(x, self.w), axis=1)
         return y
-
 (xs, ys), (o_x, o_y) = load_data('train.txt')        
 ndim = xs.shape[1]
-
 model = linearModel(ndim=ndim)
-
 # ## 训练以及评估
 
 # In[26]:
@@ -92,19 +86,15 @@ def train_one_step(model, xs, ys):
     grads = tape.gradient(loss, model.w)
     optimizer.apply_gradients([(grads, model.w)])
     return loss
-
 @tf.function
 def predict(model, xs):
     y_preds = model(xs)
     return y_preds
-
 def evaluate(ys, ys_pred):
     """评估模型。"""
     std = np.sqrt(np.mean(np.abs(ys - ys_pred) ** 2))
     return std
-
 # In[27]:评估指标的计算
-
 for i in range(1000):
     loss = train_one_step(model, xs, ys)
     if i % 100 == 1:
