@@ -110,14 +110,17 @@ class myRNNModel(keras.Model):
         self.embed_layer = tf.keras.layers.Embedding(10, 32,
                                                     batch_input_shape = [None, None])
         self.rnncell = tf.keras.layers.SimpleRNNCell(64)
+            # 定义RNN层，返回整个序列
         self.rnn_layer = tf.keras.layers.RNN(self.rnncell, return_sequences = True)
         self.dense = tf.keras.layers.Dense(10)
 
     @tf.function
     def call(self, num1, num2):
         '''
+        
         此处完成上述图中模型
         '''
+        
         emb1 = self.embed_layer(num1)  # shape: (batch, seq_len, 32)
         emb2 = self.embed_layer(num2)  # shape: (batch, seq_len, 32)
 
